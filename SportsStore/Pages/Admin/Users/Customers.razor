@@ -1,0 +1,84 @@
+﻿@page "/admin/users/list"
+@inherits OwningComponentBase<ICustomerRepository>
+<table class="table table-sm table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Имя</th>
+			<th>Пароль</th>
+			<th>Логин</th>
+			<th>Статус</th>
+			<th>Страна</th>
+			<th>Регион/штат/область</th>
+			<th>Город</th>
+			<th>Мобильный телефон</th>
+			<th>e-mail</th>
+			<th>Дата регистрации</th>
+			<td />
+		</tr>
+	</thead>
+	<tbody>
+		@if (CustomerData?.Count() > 0)
+		{
+			@foreach (Customer p in CustomerData)
+			{
+				<tr>
+					<td>@p.CustomerID</td>
+					<td>@p.Name</td>
+					<td>@p.Password</td>
+					<td>@p.Login</td>
+					<td>@p.Status</td>
+					<td>@p.Country</td>
+					<td>@p.State</td>
+					<td>@p.City</td>
+					<td>@p.Mobile</td>
+					<td>@p.Email</td>
+					<td>@p.RegisterDate</td>
+					<td>
+						<NavLink class="btn btn-info btn-sm"
+							href="@GetDetailsUrl(p.CustomerID ?? 0)">
+							Инф.
+						</NavLink>
+						<NavLink class="btn btn-warning btn-sm"
+							href="@GetEditUrl(p.CustomerID ?? 0)">
+							Редакт.
+						</NavLink>
+						<button class="btn btn-danger btn-sm"
+							@onclick="@(e => DeleteCustomer(p))">
+							Удалить
+						</button>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5" class="text-center">Нет товаров</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<NavLink class="btn btn-primary" href="/admin/users/create">Создать</NavLink>
+@code {
+	public ICustomerRepository Repository => Service;
+	public IEnumerable<Customer> CustomerData { get; set; }
+		= Enumerable.Empty<Customer>();
+	protected async override Task OnInitializedAsync()
+	{
+		await UpdateData();
+	}
+	public async Task UpdateData()
+	{
+		CustomerData = await Repository.Customers.ToListAsync();
+	}
+
+	public async Task DeleteCustomer(Customer p)
+	{
+		Repository.DeleteCustomer(p);
+		await UpdateData();
+	}
+
+	public string GetDetailsUrl(long id) => $"/admin/customer/details/{id}";
+	public string GetEditUrl(long id) => $"/admin/customer/edit/{id}";
+}
