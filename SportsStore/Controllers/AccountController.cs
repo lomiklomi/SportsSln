@@ -15,7 +15,7 @@ namespace SportsStore.Controllers
 			userManager = userMgr;
 			signInManager = signInMgr;
 		}
-		public ViewResult Login(string returnUrl)
+		public ViewResult Login(string? returnUrl)
 		{
 			return View(new LoginModel
 			{

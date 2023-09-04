@@ -7,6 +7,6 @@ namespace SportsStore.Models.ViewModels
 		public string? Name { get; set; }
 		[Required(ErrorMessage = "Поле для ввода пароля является обязательным.")]
 		public string? Password { get; set; }
-		public string ReturnUrl { get; set; } = "/";
+		public string? ReturnUrl { get; set; } = "/";
 	}
 }
