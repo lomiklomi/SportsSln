@@ -11,6 +11,15 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col navbar-brand">Магазин спортивных товаров</div>
+				<div class="col-2 text-right">
+					<a class="btn btn-sm btn-primary" href="@Url.Action("Login", "Account")" class="elements">
+						<span>Авторизация</span>
+					</a>
+					<a class="btn btn-sm btn-primary" asp-page="/Users/List"
+						asp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+						<span>Регистрация</span>
+					</a>
+				</div>
 				<div class="col-6 navbar-text text-end">
 					<vc:cart-summary />
 				</div>
