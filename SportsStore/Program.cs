@@ -13,6 +13,7 @@ builder.Services.AddDbContext<StoreDbContext>(opts => {
 
 builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
+builder.Services.AddScoped<ICustomerRepository, EFCustomerRepository>();
 
 builder.Services.AddRazorPages();
 
@@ -28,6 +29,14 @@ options.UseSqlServer(
 builder.Configuration["ConnectionStrings:IdentityConnection"]));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 .AddEntityFrameworkStores<AppIdentityDbContext>();
+
+builder.Services.Configure<IdentityOptions>(opts => {
+	opts.Password.RequiredLength = 6;
+	opts.Password.RequireNonAlphanumeric = false;
+	opts.Password.RequireLowercase = false;
+	opts.Password.RequireUppercase = false;
+	opts.Password.RequireDigit = false;
+});
 
 var app = builder.Build();
 
