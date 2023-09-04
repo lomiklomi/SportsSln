@@ -19,5 +19,8 @@ namespace SportsStore.Models
 
 		[BindNever]
 		public bool Shipped { get; set; }
+
+		[BindNever]
+		public long CustomerID { get; set; }
 	}
 }
